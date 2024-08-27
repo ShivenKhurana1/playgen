@@ -1,109 +1,51 @@
 {
-  "name": "spotgen",
-  "version": "1.0.28",
-  "author": "Vegard Øye <vegard_oye@hotmail.com>",
-  "description": "A tool for generating Spotify playlists programmatically. Convert websites to Spotify playlists, incorporate Last.fm listener data, and employ smart algorithms to reorder the tracks.",
-  "license": "MIT",
-  "keywords": [
-    "spotify",
-    "playlist",
-    "generator"
-  ],
-  "main": "index.js",
-  "bin": {
-    "spotgen": "index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/epsil/spotgen.git"
-  },
-  "bugs": {
-    "url": "https://github.com/epsil/spotgen/issues"
-  },
-  "homepage": "https://github.com/epsil/spotgen",
-  "engines": {
-    "node": ">=4.0.0"
-  },
+  "name": "spotify-playlist-generator",
+  "version": "0.1.0",
+  "homepage": "https://amcolash.github.io/spotify-playlist-generator/",
+  "private": true,
   "dependencies": {
-    "base-64": "^0.1.0",
-    "bootstrap": "^3.3.7",
-    "cli-input": "^0.2.0",
-    "clipboardy": "^1.1.4",
-    "csv-stringify": "^1.0.4",
-    "eol": "^0.8.1",
-    "express": "^4.15.4",
-    "git-rev": "^0.2.1",
-    "jquery": "^3.1.1",
-    "jsdom": "^9.4.1",
-    "lodash": "^4.17.4",
-    "opn": "^5.1.0",
-    "preq": "^0.5.2",
-    "promise": "^7.1.1",
-    "request": "^2.79.0",
-    "string-similarity": "^1.1.0",
-    "urijs": "^1.18.10",
-    "xregexp": "^3.2.0"
+    "react": "^17.0.1",
+    "react-audio-player": "^0.14.0",
+    "react-dom": "^17.0.1",
+    "react-feather": "^2.0.9",
+    "react-modal": "^3.12.1",
+    "react-range": "^1.8.7",
+    "react-switch": "^6.0.0",
+    "spinners-react": "^1.0.4",
+    "spotify-web-api-node": "^5.0.2",
+    "typestyle": "^2.1.0"
   },
   "devDependencies": {
-    "browserify": "^13.1.1",
-    "chai": "^3.5.0",
-    "chai-as-promised": "^6.0.0",
-    "http-server": "^0.10.0",
-    "jsdoc": "^3.4.3",
-    "jshint": "^2.9.4",
-    "markdownlint-cli": "^0.3.1",
-    "mocha": "^3.2.0",
-    "standard": "^8.6.0",
-    "uglify-js": "^2.7.5"
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "@types/react-modal": "^3.12.0",
+    "@types/spotify-web-api-node": "^5.0.0",
+    "react-scripts": "^4.0.2",
+    "typescript": "^4.1.5"
   },
   "scripts": {
-    "clean": "git stash && git clean -d -f -f -x",
-    "clean!": "npm run reset && npm run clean",
-    "clean!!": "npm run reset! && npm run clean",
-    "ds_store": "find . -iname \"*.DS_Store\" -exec git rm {} \\;; find . -iname \"*er i konflikt*\" -exec git rm {} \\;; find . -iname \"*.DS_Store\" -exec rm {} \\;; find . -iname \"*.docx\" -exec rm {} \\;; find . -iname \"*.log\" -exec rm {} \\;",
-    "cli": "node index.js",
-    "gui": "git gui &",
-    "dump": "node index.js > output.txt && cat output.txt",
-    "build": "npm run browser && npm run jsdoc",
-    "rebuild": "npm run build && npm run http",
-    "retest": "npm run clean! && npm install && npm test",
-    "dist": "npm run build && npm run minify && cp -r doc dist && cp -r test dist",
-    "lint": "npm run jshint && npm run standard && npm run markdownlint",
-    "jshint": "jshint index.js lib/album.js lib/artist.js lib/auth.js lib/collection.js lib/generator.js lib/http.js lib/lastfm.js lib/playlist.js lib/parser.js lib/queue.js lib/scraper.js lib/similar.js lib/sort.js lib/spotify.js lib/top.js lib/track.js lib/util.js dist/web.js test/test.js",
-    "standard": "standard index.js lib/album.js lib/artist.js lib/auth.js lib/collection.js lib/generator.js lib/http.js lib/lastfm.js lib/playlist.js lib/parser.js lib/queue.js lib/scraper.js lib/similar.js lib/sort.js lib/spotify.js lib/top.js lib/track.js lib/util.js dist/web.js test/test.js",
-    "markdownlint": "markdownlint README.md Tips.md",
-    "nyan": "mocha --reporter nyan test/test.js",
-    "tests": "mocha test/test.js",
-    "test": "npm run lint && npm run tests",
-    "server": "http-server -p 9000 dist",
-    "start": "open http://localhost:9000/",
-    "http": "npm run start && npm run server",
-    "browser": "browserify dist/web.js -i express -i preq -i xregexp -o dist/bundle.js && browserify test/test.js -i express -i preq -i xregexp -o test/bundle.js",
-    "minify": "uglifyjs dist/bundle.js -o dist/bundle.js",
-    "open": "open dist/index.html",
-    "web": "npm run browser && npm run open",
-    "builddoc": "npm run jsdoc && npm run doc",
-    "jsdoc": "rm -rf doc && jsdoc -c .jsdocrc -d doc README.md index.js lib/album.js lib/artist.js lib/auth.js lib/collection.js lib/generator.js lib/http.js lib/lastfm.js lib/playlist.js lib/parser.js lib/queue.js lib/scraper.js lib/similar.js lib/sort.js lib/spotify.js lib/top.js lib/track.js lib/util.js",
-    "doc": "open doc/index.html",
-    "commit": "git --no-pager status && git --no-pager diff && git commit -a -m \"Updated `git status | sed -n '/modified:/ {s/^[[:space:]]*modified:[[:space:]]*//;s/\\.txt$//;s/\\.md$//;s/\\.html$//;s/\\/index$//;p;q;}'`\"",
-    "amend": "git --no-pager status && git --no-pager diff && git commit -a --amend --no-edit",
-    "reword": "git --no-pager status && git --no-pager diff && git commit -a --amend",
-    "reset": "git reset --hard",
-    "clear": "git stash clear",
-    "reset!": "npm run reset && npm run clear",
-    "push": "git --no-pager status && git pull --rebase && git push",
-    "push!": "git --no-pager status && git push --force",
-    "pull": "git --no-pager status && git pull --rebase",
-    "tags": "git push --tags",
-    "bump": "npm run push && npm run tags && npm publish",
-    "patch": "npm version patch && npm run bump",
-    "minor": "npm version minor && npm run bump",
-    "major": "npm version major && npm run bump",
-    "release": "npm run patch",
-    "compress": "git gc --prune=now",
-    "diff": "git diff",
-    "log": "git log -p",
-    "gitk": "gitk &",
-    "status": "git status"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
