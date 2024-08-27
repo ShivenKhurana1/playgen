@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>spotgen</h1><p><a href="https://www.npmjs.com/package/spotgen"><img src="https://nodei.co/npm/spotgen.png" alt="nodei.co"></a></p>
+<p><a href="https://www.npmjs.com/package/spotgen"><img src="https://img.shields.io/npm/v/spotgen.svg" alt="npm"></a>
+<a href="https://travis-ci.org/epsil/spotgen"><img src="https://travis-ci.org/epsil/spotgen.svg?branch=master" alt="Build Status"></a></p>
+<p>A tool for generating <a href="http://www.spotify.com/">Spotify</a> playlists programmatically. Convert websites to Spotify playlists, incorporate <a href="http://last.fm/">Last.fm</a> listener data, and employ smart algorithms to reorder the tracks.</p>
+<p>Web demo: <https://epsil.github.io/spotgen/></p>
+<h2>Installation</h2><p>Install <a href="http://nodejs.org/">Node</a> and fetch the package with <a href="https://www.npmjs.com/package/spotgen"><code>npm</code></a>:</p>
+<pre class="prettyprint source"><code>npm install -g spotgen</code></pre><p>Note that on some systems, it might be necessary to prepend the <code>npm</code> command with <a href="https://docs.npmjs.com/getting-started/installing-npm-packages-globally"><code>sudo</code></a>.</p>
+<p>The generator can now be invoked from the command line as <code>spotgen</code> (see <a href="#command-line-version">usage</a>).</p>
+<h2>Usage</h2><h3>Web demo</h3><p>Go to <https://epsil.github.io/spotgen/>, enter a <a href="#commands">generator string</a> in the text field and press <em>Create Playlist</em>.</p>
+<h3>Command-line version</h3><pre class="prettyprint source"><code>spotgen input.txt output.txt</code></pre><p><code>input.txt</code> is a text file containing a <a href="#commands">generator string</a>, invoking any of the <em>commands</em> described below. <code>output.txt</code> will contain the generator's output, a list of <a href="#spotify-uris">Spotify URIs</a> which can be <a href="#importing-the-playlist">imported into Spotify</a>.</p>
+<p>Alternatively, one can pass a generator string as a single argument. In that case, the Spotify URIs are written to standard output:</p>
+<pre class="prettyprint source"><code>spotgen &quot;#artist Bowery Electric&quot;
+spotgen &quot;#similar Beach House\n#similar Hooverphonic&quot;
+spotgen http://www.last.fm/user/username/library</code></pre><p>Make sure to surround the string with quotes (<code>&quot;</code>) if it contains spaces or special characters. Line breaks can be expressed as <code>\n</code>.</p>
+<p>One can also run the generator with no arguments and enter commands interactively. This saves one the trouble of quoting strings and escaping newlines.</p>
+<p>For more information, type <code>spotgen --help</code>.</p>
+<h3>Importing the playlist</h3><p>To <strong>import</strong> the playlist into Spotify:</p>
+<ol>
+<li><strong>Copy the output of the generator:</strong> Choose <em>Edit -&gt; Copy</em> (<kbd>Ctrl</kbd> + <kbd>C</kbd>).</li>
+<li><strong>Create a new playlist in Spotify:</strong> Choose <em>File -&gt; New Playlist</em> (<kbd>Ctrl</kbd> + <kbd>N</kbd>).</li>
+<li><strong>Paste into the playlist:</strong> Select the playlist and choose <em>Edit -&gt; Paste</em> (<kbd>Ctrl</kbd> + <kbd>V</kbd>).</li>
+</ol>
+<h2>Commands</h2><p>The generator effectively defines a &quot;mini-language&quot; for creating Spotify playlists. One can create a playlist in many ways: on the basis of <a href="#tracks">track titles</a>, <a href="#albums">album titles</a>, <a href="#artists">artist names</a>, <a href="#similar-artists">similar artists</a>, <a href="#top-tracks">top tracks</a> or <a href="#web-scraping">webpages</a>.</p>
+<p>Below follows a list of <strong>generator commands</strong>.</p>
+<h3>Web scraping</h3><p>The generator can scrape data from web pages. (Note that this functionality is only available in the <a href="#command-line-version">command-line version</a>.)</p>
+<h4>Last.fm</h4><p>The generator can be instructed to fetch data from <a href="http://last.fm/">Last.fm</a>'s webpages simply by supplying the page's address. For example, to create a playlist of artists similar to an artist, add the line:</p>
+<pre class="prettyprint source"><code>http://www.last.fm/music/Artist+Name/+similar</code></pre><p>To create a playlist of a user's recently played tracks:</p>
+<pre class="prettyprint source"><code>http://www.last.fm/user/username/library</code></pre><p>To fetch multiple pages in succession, add a number parameter:</p>
+<pre class="prettyprint source"><code>5 http://www.last.fm/user/username/library</code></pre><p>This is functionally identical to:</p>
+<pre class="prettyprint source"><code>http://www.last.fm/user/username/library
+http://www.last.fm/user/username/library?page=2
+http://www.last.fm/user/username/library?page=3
+http://www.last.fm/user/username/library?page=4
+http://www.last.fm/user/username/library?page=5</code></pre><p>Note that Last.fm displays listening history in reverse chronological order. To create a chronological playlist, add the <a href="#reverse"><code>#reverse</code></a> command.</p>
+<p><a href="Tips.md#lastfm">More on Last.fm scraping</a>.</p>
+<h4>Pitchfork</h4><p>To scrape a <a href="http://pitchfork.com/">Pitchfork</a> list:</p>
+<pre class="prettyprint source"><code>http://pitchfork.com/features/lists-and-guides/9980-the-50-best-albums-of-2016/</code></pre><h4>Rate Your Music</h4><p>To scrape a <a href="http://rateyourmusic.com/">Rate Your Music</a> chart:</p>
+<pre class="prettyprint source"><code>http://rateyourmusic.com/charts/top/album/2016</code></pre><h4>Reddit</h4><p>To scrape a <a href="http://www.reddit.com/">Reddit</a> forum:</p>
+<pre class="prettyprint source"><code>http://www.reddit.com/r/SoundsVintage/</code></pre><p>To scrape a comments thread:</p>
+<pre class="prettyprint source"><code>http://www.reddit.com/r/Music/comments/2zpfv7/whats_the_catchiest_song_you_know_that_just_makes/</code></pre><p>When scraping threads, it can be a good idea to add the <a href="#order"><code>#order by lastfm</code></a> command. This will order the results by <a href="http://last.fm/">Last.fm</a> popularity, thereby filtering out noise.</p>
+<h4>YouTube</h4><p>To convert a <a href="http://www.youtube.com/">YouTube</a> playlist:</p>
+<pre class="prettyprint source"><code>http://www.youtube.com/watch?v=yWEK4v9AVKQ&list=PLChOO_ZAB22WuyDODJ3kjJiU0oQzWOTyb</code></pre><h3>Top tracks</h3><p>To retrieve the top 10 tracks of an artist, pass the following to the generator:</p>
+<pre class="prettyprint source"><code>#top Aphex Twin</code></pre><p>The generator will output a playlist consisting of the ten most popular tracks of Aphex Twin, which can then be <a href="#usage">imported</a> into Spotify.</p>
+<p>All of the commands listed here can be used multiple times. For example:</p>
+<pre class="prettyprint source"><code>#top Aphex Twin
+#top Beach House</code></pre><p>This will create a playlist consisting of the top tracks of Aphex Twin, followed by the top tracks of Beach House.</p>
+<p>To retrieve only the top 5 tracks, use <code>#top5</code>.</p>
+<p>To retrieve <em>all</em> tracks, use <a href="#artists"><code>#artist</code></a>.</p>
+<h3>Similar artists</h3><p>To find similar artists:</p>
+<pre class="prettyprint source"><code>#similar Aphex Twin</code></pre><p>This will generate a 100-track playlist consisting of the 5 most popular tracks from the 20 most similar artists to Aphex Twin.</p>
+<p>To retrieve more tracks, use <code>#similar10</code>.</p>
+<h3>Albums</h3><p>To add an album:</p>
+<pre class="prettyprint source"><code>#album Biosphere - Substrata</code></pre><p>Alternatively, use the album's Spotify link or Spotify URI:</p>
+<pre class="prettyprint source"><code>https://open.spotify.com/album/5QIf4hNIAksV1uMCXHVkAZ</code></pre><h3>Artists</h3><p>To add all the albums of an artist:</p>
+<pre class="prettyprint source"><code>#artist Beach House</code></pre><p>Alternatively, use the artist's Spotify link or Spotify URI:</p>
+<pre class="prettyprint source"><code>https://open.spotify.com/artist/56ZTgzPBDge0OvCGgMO3OY</code></pre><p>Note that this command can be rather slow, as it attempts to retrieve every single track by the artist, including tracks from collaboration and compilation albums. A fast alternative is the <a href="#top-tracks"><code>#top</code></a> command.</p>
+<h3>Playlist</h3><p>To add all the tracks of a playlist:</p>
+<pre class="prettyprint source"><code>#playlist username:playlistid</code></pre><p>where <code>username</code> is the owner of the playlist and <code>playlistid</code> is the ID of the playlist.</p>
+<p>Alternatively, use the playlist's Spotify link or Spotify URI:</p>
+<pre class="prettyprint source"><code>https://open.spotify.com/user/redditlistentothis/playlist/6TMNC59e1TuFFE48tJ9V2D</code></pre><h3>Tracks</h3><p>To add a single track to the playlist, add a line on the form <code>ARTIST - TRACK</code>:</p>
+<pre class="prettyprint source"><code>Beach House - Walk in the Park
+Beach House - Irene
+Beach House - Other People
+Beach House - Troublemaker
+Beach House - Wishes</code></pre><p>Alternatively, use the track's Spotify link or Spotify URI:</p>
+<pre class="prettyprint source"><code>https://open.spotify.com/track/4oNXgGnumnu5oIXXyP8StH</code></pre><p><a href="Tips.md#miscellaneous">More on single tracks</a>.</p>
+<h3>Duplicates</h3><p>By default, the generator automatically removes duplicate tracks. To allow duplicates, add the line:</p>
+<pre class="prettyprint source"><code>#duplicates</code></pre><h3>Reverse</h3><p>To reverse the order of the tracks, add the line:</p>
+<pre class="prettyprint source"><code>#reverse</code></pre><h3>Shuffle</h3><p>To shuffle the order of the tracks, add the line:</p>
+<pre class="prettyprint source"><code>#shuffle</code></pre><h3>Order</h3><p>To order the tracks by Spotify popularity, use <code>#order by</code>:</p>
+<pre class="prettyprint source"><code>#order by popularity
+#artist Beach House</code></pre><p>The generator also provides <a href="http://last.fm/">Last.fm</a> support. To order by Last.fm playcount, add the line <code>#order by lastfm</code>:</p>
+<pre class="prettyprint source"><code>#order by lastfm
+#artist Beach House</code></pre><p>To order by Last.fm user playcount, add the Last.fm username at the end:</p>
+<pre class="prettyprint source"><code>#order by lastfm username
+#artist Beach House</code></pre><h3>Group</h3><p>To sort the ordered tracks into groups, use <code>#group by</code>:</p>
+<pre class="prettyprint source"><code>#order by lastfm
+#group by artist
+#similar Beach House</code></pre><p>This will create a Last.fm-ordered playlist of artists similar to Beach House, where tracks from the same artists are grouped together.</p>
+<h3>Alternate</h3><p>To group the tracks and then interleave them, use <code>#alternate by</code>:</p>
+<pre class="prettyprint source"><code>#order by popularity
+#alternate by artist
+#similar Beach House
+#similar Hooverphonic</code></pre><p>This will create a Last.fm-ordered playlist of artists similar to Beach House and Hooverphonic, with each track having a different artist from the previous track.</p>
+<h2>Supported formats</h2><p>The generator can work with <a href="#spotify-links">Spotify links</a>, <a href="#spotify-uris">Spotify URIs</a>, <a href="#m3u-playlists">M3U playlists</a> and <a href="#comma-separated-values">CSV files</a>. By default, the generator outputs a list of Spotify URIs.</p>
+<h3>Import existing Spotify playlists</h3><p>The generator understands Spotify links and Spotify URIs. These are usually obtained by opening the item in Spotify and choosing <em>More</em> -&gt; <em>Share</em> (click on the <code>...</code> symbol).</p>
+<h4>Spotify links</h4><p>The following example creates a new playlist out of an existing playlist, applying the <a href="#order"><code>#order</code></a> command in the process:</p>
+<pre class="prettyprint source"><code>#order by popularity
+https://open.spotify.com/user/redditlistentothis/playlist/6TMNC59e1TuFFE48tJ9V2D</code></pre><p>Another method is to select the playlist's tracks in Spotify, copy them, and then paste them into a text file. This produces a list of Spotify track links:</p>
+<pre class="prettyprint source"><code>https://open.spotify.com/track/4oNXgGnumnu5oIXXyP8StH
+https://open.spotify.com/track/7rAjeWkQM6cLqbPjZtXxl2
+https://open.spotify.com/track/2Nt4Uw91pQLXSJ28SttDdF
+...</code></pre><h4>Spotify URIs</h4><p>Spotify URIs are the default output format of the generator. They look like this:</p>
+<pre class="prettyprint source"><code>spotify:track:4oNXgGnumnu5oIXXyP8StH
+spotify:track:7rAjeWkQM6cLqbPjZtXxl2
+spotify:track:2Nt4Uw91pQLXSJ28SttDdF
+...</code></pre><h3>M3U playlists</h3><p>One can also import <a href="http://en.wikipedia.org/wiki/M3U">M3U</a> playlists (with the file extension <code>.m3u</code> or <code>.m3u8</code>), provided they contain <code>EXTM3U</code> metadata. That is, the playlist should be on the form:</p>
+<pre class="prettyprint source"><code>#EXTM3U
+#EXTINF:404,Desire Lines - Deerhunter
+Deerhunter/Halcyon Digest/06 Desire Lines.mp3
+#EXTINF:230,Saved By Old Times - Deerhunter
+Deerhunter/Microcastle/10 Saved By Old Times.mp3
+#EXTINF:202,Agoraphobia - Deerhunter
+Deerhunter/Microcastle/02 Agoraphobia.mp3
+#EXTINF:133,Revival - Deerhunter
+Deerhunter/Halcyon Digest/03 Revival.mp3
+#EXTINF:264,Twilight at Carbon Lake - Deerhunter
+Deerhunter/Microcastle/12 Twilight at Carbon Lake.mp3</code></pre><p>The generator translates this to:</p>
+<pre class="prettyprint source"><code>Deerhunter - Desire Lines
+Deerhunter - Saved By Old Times
+Deerhunter - Agoraphobia
+Deerhunter - Revival
+Deerhunter - Twilight at Carbon Lake</code></pre><p><a href="Tips.md#m3u-playlists">More on M3U playlists</a>.</p>
+<h3>Comma-separated values</h3><p>The generator can read and write the CSV format used by <a href="https://github.com/watsonbox/exportify">Exportify</a>:</p>
+<pre class="prettyprint source"><code>spotify:track:3jZ0GKAZiDMya0dZPrw8zq,Desire Lines,Deerhunter,Halcyon Digest,1,6,404413,,
+spotify:track:20DDHYR4vZqDwHyNFLwkXI,Saved By Old Times,Deerhunter,Microcastle,1,10,230226,,
+spotify:track:2SpHd4lGMrJMIQDf92V6VP,Agoraphobia,Deerhunter,Microcastle,1,2,202640,,
+spotify:track:30wvVTkqA4Fp5ZCG0xGof7,Revival,Deerhunter,Halcyon Digest,1,3,133666,,
+spotify:track:6vtwbm7YGkTwTINdrcXV5I,Twilight At Carbon Lake,Deerhunter,Microcastle,1,12,263986,,</code></pre><p>To output to this format, add the line <code>#csv</code>:</p>
+<pre class="prettyprint source"><code>#csv
+Deerhunter - Desire Lines
+Deerhunter - Saved By Old Times
+Deerhunter - Agoraphobia
+Deerhunter - Revival
+Deerhunter - Twilight at Carbon Lake</code></pre><p>CSV files have the advantage of being editable with a spreadsheet editor such as Microsoft Excel or LibreOffice Calc. They are also future-proof, as they contain additional info to the Spotify URIs. (The URIs might, conceivably, change or become outdated. On the other hand, the title, artist and album of a track can be used to find that track on any music streaming service.)</p>
+<h2>Web demo</h2><p>The generator is available as a single-page application running in the browser. It is hosted at <https://epsil.github.io/spotgen/>.</p>
+<p>The generator code runs entirely on the client side. However, because of restrictions in Spotify's authentication service, the user first has to log in with their Spotify account. Despite the warning, the application does not access any private data. (Alternatively, the <a href="#command-line-version">command-line version</a> can be used without logging in.)</p>
+<p>The web demo does not support <a href="#web-scraping">web scraping</a>, due to browser limits on <a href="http://en.wikipedia.org/wiki/Cross-origin_resource_sharing">cross-site requests</a>. For this, one has to use the command-line version.</p>
+<p>It is also possible to run the web demo locally:</p>
+<pre class="prettyprint source"><code>npm run http</code></pre><p>This will start up a <code>http-server</code> instance at <http://localhost:9000/>.</p>
+<p>Note that Spotify's authentication service requires the web demo to be hosted at a whitelisted address. This is the reason for running <code>http-server</code> at port 9000 (merely opening <code>index.html</code> in a browser will not work).</p>
+<p>For more information about authentication, see the official <a href="http://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow">Spotify Web API documentation</a>.</p>
+<h2>Library</h2><p>The generator is also available as a library that can be included in another project. To install it in the project's <code>node_modules/</code> folder:</p>
+<pre class="prettyprint source"><code>npm install --save spotgen</code></pre><p>The following example demonstrates how to use the library:</p>
+<pre class="prettyprint source lang-js"><code>var Generator = require('spotgen')
+var spotgen = new Generator('#top Beach House\n#top Deer Hunter')
+spotgen.generate().then(function (result) {
+  // do something with the Spotify URIs,
+  // e.g., output them to the console
+  console.log(result)
+})</code></pre><p>The <code>generate()</code> method returns a <a href="https://www.promisejs.org/">promise</a> that contains the Spotify URIs, represented as a newline-separated string. To access this value, use the <code>then()</code> callback as shown.</p>
+<p>Note that if one is writing one's own application for Spotify, then one should <a href="https://developer.spotify.com/web-api/authorization-guide/#introduction">register the application</a> and obtain a client ID and client secret key. These are passed to the <code>Generator</code> class like so:</p>
+<pre class="prettyprint source lang-js"><code>var spotgen = new Generator('#top Beach House', clientId, clientKey)</code></pre><p>The generator will then use these values to acquire an access token for web API requests. If one already has a token, then one can pass that to <code>Generator</code> as well:</p>
+<pre class="prettyprint source lang-js"><code>var spotgen = new Generator('#top Beach House', clientId, clientKey, token)</code></pre><h2>Developer version</h2><p>Instead of installing the package with <code>npm</code>, one can fetch the source code from <a href="https://github.com/epsil/spotgen">GitHub</a>:</p>
+<pre class="prettyprint source"><code>git clone https://github.com/epsil/spotgen.git</code></pre><p>Then fetch all depencies with <code>npm install</code>:</p>
+<pre class="prettyprint source"><code>cd spotgen
+npm install</code></pre><p>Then create a global package link with <code>npm link</code>:</p>
+<pre class="prettyprint source"><code>npm link</code></pre><h3>Unit tests</h3><p>The package includes a test suite. To run it, type:</p>
+<pre class="prettyprint source"><code>npm test</code></pre><h2>License</h2><p><a href="LICENSE">MIT License</a>.</p>
+<h2>Links</h2><ul>
+<li><a href="https://epsil.github.io/spotgen/">Web demo</a></li>
+<li><a href="https://www.npmjs.com/package/spotgen">npm package</a></li>
+<li><a href="https://github.com/epsil/spotgen">GitHub repository</a></li>
+<li><a href="https://epsil.github.io/spotgen/doc/">Developer documentation</a></li>
+<li><a href="http://developer.spotify.com/web-api/authorization-guide/#implicit-grant-flow">Spotify Web API documentation</a></li>
+<li><a href="Tips.md">Additional tips</a></li>
+</ul>
+<h3>See also</h3><ul>
+<li><a href="http://spotlistr.herokuapp.com/">Spotlistr</a> (<a href="https://github.com/BobNisco/Spotlistr">source</a>), feature-rich AngularJS conversion app</li>
+<li><a href="https://github.com/watsonbox/exportify">Exportify</a>, for exporting Spotify playlists to CSV format</li>
+</ul>
+<h4>Recommendations</h4><ul>
+<li><a href="http://magicplaylist.co/">MagicPlaylist</a> (<a href="https://github.com/loverajoel/magicplaylist">source</a>)</li>
+<li><a href="http://20v.co/">20v</a> (<a href="https://github.com/fusenlabs/20v">source</a>)</li>
+<li><a href="http://www.spotibot.com/">Spotibot</a></li>
+</ul></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Album.html">Album</a></li><li><a href="Artist.html">Artist</a></li><li><a href="Collection.html">Collection</a></li><li><a href="Generator.html">Generator</a></li><li><a href="Parser.html">Parser</a></li><li><a href="Playlist.html">Playlist</a></li><li><a href="Queue.html">Queue</a></li><li><a href="Similar.html">Similar</a></li><li><a href="SpotifyAuth.html">SpotifyAuth</a></li><li><a href="SpotifyWebApi.html">SpotifyWebApi</a></li><li><a href="Top.html">Top</a></li><li><a href="Track.html">Track</a></li><li><a href="WebScraper.html">WebScraper</a></li></ul><h3>Global</h3><ul><li><a href="global.html#generate">generate</a></li><li><a href="global.html#http">http</a></li><li><a href="global.html#main">main</a></li><li><a href="global.html#sort">sort</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.4</a> on Mon Aug 07 2017 13:28:21 GMT+0200 (W. Europe Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
