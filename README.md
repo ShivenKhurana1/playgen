@@ -1,54 +1,63 @@
-# spotify-playlist-generator
+# Moodify
 
-Generate spotify playlists based on existing ones to discover new music
+Moodify is a project developed for LA Hacks 2024 that aims to enhance the user experience by providing a personalized soundtrack for their memories. By leveraging the Spotify API for authentication and song data, and the Google Gemini Pro Vision API for identifying semantics, Moodify offers a unique way for users to connect with their favorite songs through their photos.
 
-## Live Version
+## Features
 
-Check it out here: https://amcolash.github.io/spotify-playlist-generator
+- **Personalized Soundtrack:** Moodify matches the user's photo input with songs from their Mixes, providing a personalized soundtrack for their memories.
+- **Authentication:** Users can securely authenticate their Spotify account to access their favorite songs.
+- **Semantics Identification:** The Google Gemini Pro Vision API is used to identify semantics in the user's photos, enhancing the matching process.
 
-## Getting Started with Create React App
+## Technologies Used
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- **Reflex Web Framework:** Used for developing the web application, providing a smooth and interactive user interface.
+- **Spotify API:** Used for authentication and accessing the user's favorite songs.
+- **Google Gemini Pro Vision API:** Used for identifying semantics in the user's photos.
 
-## Available Scripts
+## Team Members
 
-In the project directory, you can run:
+- [**Leo Lee**](https://www.linkedin.com/in/thl-leo/)
+- [**Daphne Cheng**](https://www.linkedin.com/in/daphne--cheng/)
+- [**Ryan Da**](https://www.linkedin.com/in/ryan-da/)
+- [**Yoshi Nakachi**](https://www.linkedin.com/in/yoshinakachi/)
 
-### `yarn start`
+## How to Install
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To install and run Moodify, follow these steps:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. Set up a Python virtual environment using venv:
+```bash
+python3 -m venv myenv
+source myenv/bin/activate
+```
+2. Clone the Moodify repository:
+```bash
+git clone https://github.com/your-username/moodify.git
+cd LAHacks
+```
+3. Install the required Python packages:
+```bash
+pip install -r requirements.txt
+```
+4. Start the server using Reflex:
+```bash
+reflex run
+```
 
-### `yarn test`
+## How to Use
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To use Moodify, follow these steps:
 
-### `yarn build`
+1. Sign in with your Spotify account to access your favorite songs.
+2. Upload a photo that represents a memory or moment.
+3. Moodify will match the photo with a song from your favorite list, creating a personalized soundtrack for your memory.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Future Enhancements
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Training Gemini and expanding the semantics pool for better matching accuracy.
+- Adding social sharing features to allow users to share their personalized soundtracks with friends.
+- Make a standalone social media app using cross platform languages such as Flutter or React Native
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Feedback
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+We welcome any feedback or suggestions for improving Moodify. Feel free to reach out to us with your thoughts!
